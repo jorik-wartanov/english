@@ -2,23 +2,26 @@
 require_once '../config.php';
 
 
-$verb_id = $_POST['verb_id'];
-if ( $verb_id ) {
+$id          = $_POST['id'];
+$this_script = $_POST['this_script'];
+
+if ( $id ) {
+    
     $words = new Words();
-    $result = $words->wordNoShow($verb_id);
-    echo $result;
+    
+    if ( $this_script == 'irregular_verbs_ru.php' || $this_script == 'irregular_verbs_en.php' ) {
+        
+        $result = $words->wordNoShow($id, 'irregular_verbs');
+        echo $result;
+        
+    } elseif ( $this_script == 'words_en.php' ) {
+        
+        $result = $words->wordNoShow($id, 'word');
+        echo $result;
+        
+    }
+    
 }
 
-
-//$res_json = json_encode($res);
-
-//echo $res_json;
-    
-//echo $verb_id;
-
-
-//echo '<pre>';
-//print_r(Venue::getFreeTiers( 1 ) );
-//echo '</pre>';
 
 ?>

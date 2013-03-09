@@ -3,8 +3,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>English</title>
-<!--<link href="style.css" rel="stylesheet" type="text/css">-->
+<link href="css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<?php echo SITE_JS ?>jquery-1.9.1.js"></script>
+<script type="text/javascript" src="<?php echo SITE_JS ?>jquery.cookie.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         
@@ -12,18 +13,23 @@
             var key = eventObject.which;
             if ( key == 32 ) { // space
                 $('#english').show();
-            } else if ( key == 43 ) {
-                no_show(<?php echo $row['id'] ?>);
+            } else if ( key == 43 ) { // num +
+                no_show(<?php echo $word['id'] ?>);
             }
             
         });
         
-        function no_show(verb_id) {
+        if ( $.cookie("show_translation_after_5_sec") == "yes" ) {
+            setTimeout("$('#english').show();", 5000);
+        }
+        
+        function no_show(id) {
             
             $.ajax({
                 url: '<?php echo SITE_AJAX ?>ajax_no_show.php',
                 data: {
-                    verb_id: verb_id
+                    this_script: '<?php echo THIS_SCRIPT ?>',
+                    id: id
                 },
                 type: 'post',
                 success: function(json)
@@ -49,6 +55,6 @@
 </script>
 </head>
 <body>
-    <div>
+    <div style="float: left;">
         <a href="<?php echo SITE_URL ?>">Home</a>
     </div>

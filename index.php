@@ -3,6 +3,7 @@ require_once 'config.php';
 
 ?>
 <?php include 'tmp/header.php'; ?>
+<div style="clear: both;"></div>
 <div>
     <ul>
         <li><a href="irregular_verbs_ru.php">Irregular Verbs (russian > english)</a></li>
