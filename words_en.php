@@ -5,6 +5,7 @@ $words = new Words();
 $row = ( $_COOKIE['row'] ? $_COOKIE['row'] : 0 );
 $num = ( $_COOKIE['num'] ? $_COOKIE['num'] : 100 );
 $word = $words->getWords($row, $num);
+$word_remaining = $words->remainingWords($row, $num);
 //$word = $words->getWords2();
 
 $word_ru = $words->addTranslationOfYandex( $word['id'], $word['word_en'], $lang = 'en-ru' );
@@ -33,6 +34,14 @@ if ( !$word['word_ru'] ) {
                 $.cookie("num", $(this).val());
             } else {
                 $.cookie('num', '', { expires: -1 });
+            }
+        });
+        
+        $('button[name="set_show"]').click(function(){
+            var row = $.cookie("row") ? $.cookie("row") : 0;
+            var num = $.cookie("num") ? $.cookie("num") : 0;
+            if ( confirm('really set the "show" to ' + num + ' words from ' + row + '?' ) ) {
+                set_show(row, num);
             }
         });
         
@@ -66,12 +75,14 @@ if ( !$word['word_ru'] ) {
 <div id="words_filter" style="float: right; padding: 5px; background-color: #CCC;">
     <label>word begin</label><input type="text" style="width: 40px;" name="row" value="<?php echo ( $_COOKIE['row'] ? $_COOKIE['row'] : '' ) ?>" maxlength="5" />
     <label>words num</label><input type="text" style="width: 40px;" name="num" value="<?php echo ( $_COOKIE['num'] ? $_COOKIE['num'] : '' ) ?>" maxlength="5" />
+    <button name="set_show">Set Show</button>
     <label>advanced ru</label><input type="checkbox" name="advanced_ru" <?php echo ( $_COOKIE['advanced_ru'] == 'yes' ? 'checked' : '' ) ?> />
     <label>show translation</label><input type="checkbox" name="show_translation" <?php echo ( $_COOKIE['show_translation'] == 'yes' ? 'checked' : '' ) ?> />
-    <label>show translation after 5 seconds</label><input type="checkbox" name="show_translation_after_5_sec" <?php //echo ( $_COOKIE['show_translation_after_5_sec'] == 'yes' ? 'checked' : '' ) ?> />
+    <label>show translation after 5 seconds</label><input type="checkbox" name="show_translation_after_5_sec" <?php echo ( $_COOKIE['show_translation_after_5_sec'] == 'yes' ? 'checked' : '' ) ?> />
 </div>
 
 <div style="clear: both;"></div>
+words remaining - <?php echo $word_remaining ?>
 <div id="russian">
     <p style="font-size: <?php echo ( $_COOKIE['advanced_ru'] == 'yes' ? '96' : '126' ) ?>px; font-family: verdana; font-weight: bold; text-align: center; margin: 50px 0;"><?php echo $word['word_en'] ?> <?php echo $word['transcription'] ?></p>
 </div>

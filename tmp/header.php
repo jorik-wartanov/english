@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>English</title>
+<title>English <?php echo $word['id'] ?></title>
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="<?php echo SITE_JS ?>jquery-1.9.1.js"></script>
 <script type="text/javascript" src="<?php echo SITE_JS ?>jquery.cookie.js"></script>
@@ -50,8 +50,27 @@
             });
             
         }
+        
+        
 
     });
+    
+    
+    function set_show(row, num) {
+
+        $.ajax({
+            url: '<?php echo SITE_AJAX ?>ajax_set_show.php',
+            data: {
+                this_script: '<?php echo THIS_SCRIPT ?>',
+                row: row,
+                num: num
+            },
+            type: 'post',
+            success: function(json)
+            {}
+        });
+
+    }
 </script>
 </head>
 <body>

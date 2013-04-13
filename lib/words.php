@@ -38,6 +38,16 @@ class Words {
         
     }
     
+    function wordSetShow($row, $num, $table) {
+
+        $query = "UPDATE $table 
+                     SET no_show='0' 
+                   WHERE id > $row AND id <= $row+$num";
+
+        return $this->_db->executeQuery($query);
+        
+    }
+    
     
     
     
@@ -64,6 +74,18 @@ function getWords2() {
     return $this->_db->selectRow($query);
 
 }
+
+
+    function remainingWords( $row = 0, $num = 100 ) {
+        
+        $query = "SELECT COUNT(*) AS 'remaining' 
+                    FROM word
+                   WHERE id > $row AND id <= $row+$num AND no_show != 1 ";
+
+        return $this->_db->selectOneValue($query);
+        
+    }
+    
     
     function addTranslationOfYandex( $word_id, $text, $lang = 'en-ru' ) {
         
